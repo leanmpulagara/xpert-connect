@@ -1,0 +1,11 @@
+namespace XpertConnect.Application.Common.Interfaces;
+
+/// <summary>
+/// Service to get current authenticated user info
+/// </summary>
+public interface ICurrentUserService
+{
+    Guid? UserId { get; }
+    string? Email { get; }
+    bool IsAuthenticated { get; }
+}

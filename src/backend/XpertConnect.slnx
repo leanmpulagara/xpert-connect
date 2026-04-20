@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/XpertConnect.API/XpertConnect.API.csproj" />
+    <Project Path="src/XpertConnect.Application/XpertConnect.Application.csproj" />
+    <Project Path="src/XpertConnect.Domain/XpertConnect.Domain.csproj" />
+    <Project Path="src/XpertConnect.Infrastructure/XpertConnect.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/XpertConnect.Domain.Tests/XpertConnect.Domain.Tests.csproj" />
+    <Project Path="tests/XpertConnect.Application.Tests/XpertConnect.Application.Tests.csproj" />
+    <Project Path="tests/XpertConnect.API.Tests/XpertConnect.API.Tests.csproj" />
+  </Folder>
+</Solution>
