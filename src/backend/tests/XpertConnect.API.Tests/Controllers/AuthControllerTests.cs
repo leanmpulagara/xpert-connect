@@ -26,8 +26,7 @@ public class AuthControllerTests : IClassFixture<CustomWebApplicationFactory<Pro
             Password = "Test@123456",
             ConfirmPassword = "Test@123456",
             FirstName = "Test",
-            LastName = "User",
-            UserType = Domain.Enums.UserType.Seeker
+            LastName = "User"
         };
 
         // Act
@@ -47,8 +46,7 @@ public class AuthControllerTests : IClassFixture<CustomWebApplicationFactory<Pro
             Password = "Test@123456",
             ConfirmPassword = "Different@123456",
             FirstName = "Test",
-            LastName = "User",
-            UserType = Domain.Enums.UserType.Seeker
+            LastName = "User"
         };
 
         // Act
@@ -68,8 +66,7 @@ public class AuthControllerTests : IClassFixture<CustomWebApplicationFactory<Pro
             Password = "Test@123456",
             ConfirmPassword = "Test@123456",
             FirstName = "Test",
-            LastName = "User",
-            UserType = Domain.Enums.UserType.Seeker
+            LastName = "User"
         };
 
         // Act
