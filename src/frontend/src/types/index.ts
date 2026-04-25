@@ -72,16 +72,22 @@ export interface Availability {
 
 export interface ExpertListItem {
   id: string;
+  userId: string;
   firstName: string;
   lastName: string;
+  fullName: string;
   profilePhotoUrl?: string;
   headline?: string;
-  category?: string;
+  category: number;
+  categoryName: string;
   hourlyRate?: number;
   currency: string;
-  isVerified: boolean;
+  isAvailable: boolean;
+  verificationStatus: number;
+  verificationStatusName: string;
+  credentialCount: number;
   averageRating?: number;
-  totalReviews: number;
+  totalReviews?: number;
 }
 
 // Seeker types

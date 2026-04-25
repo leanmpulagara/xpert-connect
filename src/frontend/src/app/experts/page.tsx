@@ -9,14 +9,10 @@ import { Input, Card, CardContent, Avatar, Badge, LoadingPage, Button } from '@/
 import type { ExpertListItem, PagedResult } from '@/types';
 
 const categories = [
-  'All',
-  'Technology',
-  'Finance',
-  'Marketing',
-  'Legal',
-  'Healthcare',
-  'Education',
-  'Other',
+  { id: 0, label: 'All' },
+  { id: 1, label: 'Subject Matter Expert' },
+  { id: 2, label: 'C-Suite Executive' },
+  { id: 3, label: 'Celebrity/High-Profile' },
 ];
 
 export default function ExpertsPage() {
@@ -24,7 +20,7 @@ export default function ExpertsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('All');
+  const [category, setCategory] = useState(0);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -38,7 +34,7 @@ export default function ExpertsPage() {
           pageSize: 12,
         };
         if (search) params.search = search;
-        if (category !== 'All') params.category = category;
+        if (category !== 0) params.category = category;
 
         const result = await expertsApi.getAll(params) as PagedResult<ExpertListItem>;
         setExperts(result.items);
@@ -93,18 +89,18 @@ export default function ExpertsPage() {
         <div className="flex flex-wrap gap-2">
           {categories.map((cat) => (
             <button
-              key={cat}
+              key={cat.id}
               onClick={() => {
-                setCategory(cat);
+                setCategory(cat.id);
                 setPage(1);
               }}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                category === cat
+                category === cat.id
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              {cat}
+              {cat.label}
             </button>
           ))}
         </div>
@@ -149,7 +145,7 @@ export default function ExpertsPage() {
                             <h3 className="font-semibold text-gray-900">
                               {expert.firstName} {expert.lastName}
                             </h3>
-                            {expert.isVerified && (
+                            {expert.verificationStatus === 2 && (
                               <BadgeCheck className="h-4 w-4 text-blue-600" />
                             )}
                           </div>
@@ -159,9 +155,9 @@ export default function ExpertsPage() {
                             </p>
                           )}
                         </div>
-                        {expert.category && (
+                        {expert.categoryName && (
                           <Badge variant="info" className="mt-3">
-                            {expert.category}
+                            {expert.categoryName}
                           </Badge>
                         )}
                         <div className="mt-4 flex items-center gap-4 text-sm">

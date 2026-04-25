@@ -52,17 +52,21 @@ export const useAuthStore = create<AuthState>()(
           const response = await authApi.login({ email, password });
 
           // Store token in localStorage for API client
-          localStorage.setItem('token', response.token);
+          localStorage.setItem('token', response.accessToken);
 
           set({
-            token: response.token,
+            user: {
+              id: response.user.id,
+              email: response.user.email,
+              firstName: response.user.firstName,
+              lastName: response.user.lastName,
+              userType: response.user.roles[0] || 'User',
+            },
+            token: response.accessToken,
             refreshToken: response.refreshToken,
-            expiresAt: response.expiresAt,
+            expiresAt: response.accessTokenExpiration,
             isLoading: false,
           });
-
-          // Fetch user data
-          await get().fetchUser();
         } catch (err: unknown) {
           const error = err as { message?: string };
           set({
@@ -79,17 +83,21 @@ export const useAuthStore = create<AuthState>()(
           const response = await authApi.register(data);
 
           // Store token in localStorage for API client
-          localStorage.setItem('token', response.token);
+          localStorage.setItem('token', response.accessToken);
 
           set({
-            token: response.token,
+            user: {
+              id: response.user.id,
+              email: response.user.email,
+              firstName: response.user.firstName,
+              lastName: response.user.lastName,
+              userType: response.user.roles[0] || 'User',
+            },
+            token: response.accessToken,
             refreshToken: response.refreshToken,
-            expiresAt: response.expiresAt,
+            expiresAt: response.accessTokenExpiration,
             isLoading: false,
           });
-
-          // Fetch user data
-          await get().fetchUser();
         } catch (err: unknown) {
           const error = err as { message?: string };
           set({
@@ -116,8 +124,16 @@ export const useAuthStore = create<AuthState>()(
         if (!token) return;
 
         try {
-          const user = await authApi.me();
-          set({ user: user as User });
+          const response = await authApi.me();
+          set({
+            user: {
+              id: response.id,
+              email: response.email,
+              firstName: response.firstName,
+              lastName: response.lastName,
+              userType: response.roles[0] || 'User',
+            },
+          });
         } catch (err) {
           // Token might be invalid
           get().logout();

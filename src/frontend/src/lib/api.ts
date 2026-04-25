@@ -92,21 +92,35 @@ class ApiClient {
 
 export const api = new ApiClient(API_BASE_URL);
 
-// Auth API
+// Auth API response type matching backend
+interface AuthResponse {
+  accessToken: string;
+  refreshToken: string;
+  accessTokenExpiration: string;
+  refreshTokenExpiration: string;
+  user: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    roles: string[];
+  };
+}
+
 export const authApi = {
   login: (data: { email: string; password: string }) =>
-    api.post<{ token: string; refreshToken: string; expiresAt: string }>('/api/auth/login', data),
+    api.post<AuthResponse>('/api/auth/login', data),
 
   register: (data: { email: string; password: string; confirmPassword: string; firstName: string; lastName: string; userType: string }) =>
-    api.post<{ token: string; refreshToken: string; expiresAt: string }>('/api/auth/register', data),
+    api.post<AuthResponse>('/api/auth/register', data),
 
-  refreshToken: (data: { token: string; refreshToken: string }) =>
-    api.post<{ token: string; refreshToken: string; expiresAt: string }>('/api/auth/refresh-token', data),
+  refreshToken: (data: { refreshToken: string }) =>
+    api.post<AuthResponse>('/api/auth/refresh-token', data),
 
   revokeToken: (data: { refreshToken: string }) =>
     api.post('/api/auth/revoke-token', data),
 
-  me: () => api.get<{ id: string; email: string; firstName: string; lastName: string; userType: string }>('/api/auth/me'),
+  me: () => api.get<{ id: string; email: string; firstName: string; lastName: string; roles: string[] }>('/api/auth/me'),
 };
 
 // Users API
@@ -119,8 +133,15 @@ export const usersApi = {
 
 // Experts API
 export const expertsApi = {
-  getAll: (params?: { page?: number; pageSize?: number; category?: string; search?: string }) =>
-    api.get('/api/experts', params),
+  getAll: (params?: { page?: number; pageSize?: number; category?: number; search?: string }) => {
+    // Map frontend params to backend params
+    const backendParams: Record<string, string | number | boolean | undefined> = {};
+    if (params?.page) backendParams.pageNumber = params.page;
+    if (params?.pageSize) backendParams.pageSize = params.pageSize;
+    if (params?.category) backendParams.category = params.category;
+    if (params?.search) backendParams.searchTerm = params.search;
+    return api.get('/api/experts', backendParams);
+  },
   getById: (id: string) => api.get(`/api/experts/${id}`),
   getMe: () => api.get('/api/experts/me'),
   createProfile: (data: unknown) => api.post('/api/experts/me', data),

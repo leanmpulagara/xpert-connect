@@ -55,7 +55,8 @@
       "Bash(hash -r)",
       "Bash(node --version:*)",
       "Bash(grep:*)",
-      "Bash(/mnt/c/Program Files/dotnet/dotnet.exe test:*)"
+      "Bash(/mnt/c/Program Files/dotnet/dotnet.exe test:*)",
+      "Bash(dotnet.exe test:*)"
     ]
   }
 }
