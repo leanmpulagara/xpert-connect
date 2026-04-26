@@ -56,7 +56,10 @@
       "Bash(node --version:*)",
       "Bash(grep:*)",
       "Bash(/mnt/c/Program Files/dotnet/dotnet.exe test:*)",
-      "Bash(dotnet.exe test:*)"
+      "Bash(dotnet.exe test:*)",
+      "Bash(set:*)",
+      "Bash(\"C:\\Program Files\\PostgreSQL\\16\\bin\\psql.exe\" -U postgres -h localhost -d xpertconnect_dev -c \"SELECT \"\"Email\"\", \"\"FirstName\"\", \"\"LastName\"\" FROM \"\"AspNetUsers\"\" LIMIT 10;\")",
+      "Bash(cmd.exe:*)"
     ]
   }
 }
